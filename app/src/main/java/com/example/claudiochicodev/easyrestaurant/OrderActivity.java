@@ -1,19 +1,23 @@
 package com.example.claudiochicodev.easyrestaurant;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintJob;
 import android.print.PrintManager;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.Activity;
+import android.text.InputType;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.content.Intent;
@@ -26,6 +30,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,8 +66,8 @@ public class OrderActivity extends AppCompatActivity {
     }
 
     public void clearClicked(View view){
-        dbHandler.clearTable(SharedResources.tableNumber);
         total = 0;
+        dbHandler.clearTable(SharedResources.tableNumber);
         total_textView.setText("" + total + " " + SharedResources.coin);
         PlaceholderFragment.cleared = true;
         populate_ticket();
@@ -99,33 +105,119 @@ public class OrderActivity extends AppCompatActivity {
                 new AdapterView.OnItemClickListener(){
                     @Override
                     public void onItemClick(AdapterView parent, View view, int position, long id){
-                        OrderRow orderRow = (OrderRow) ticketAdapter.getItem(position);
+                        final View v = view;
+                        final OrderRow orderRow = (OrderRow) ticketAdapter.getItem(position);
+                        final int oldCount = orderRow.getCount();
 
-                        //Plus
-                        //Minus
-                        //Extras
+                        // Edit (extra, amount, price)
+                        // Delete
+
+                        AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                        alert.setTitle("Edit or Delete");
+                        alert.setMessage("");
+
+                        TableLayout alertLayout = new TableLayout(view.getContext());
+                        alertLayout.setOrientation(LinearLayout.VERTICAL);
+
+                        final EditText extra = new EditText(view.getContext());
+                        extra.setHint("Type extras");
+                        extra.setText("" + orderRow.getExtra());
+                        final EditText price = new EditText(view.getContext());
+                        price.setHint("Type item price");
+                        price.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        price.setText("" + orderRow.getPrice());
+                        final EditText amount = new EditText(view.getContext());
+                        amount.setHint("Amount");
+                        amount.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        amount.setText("" + oldCount);
+
+                        TextView extraTv = new TextView(view.getContext());
+                        extraTv.setText("Extras:");
+                        TextView priceTv = new TextView(view.getContext());
+                        priceTv.setText("Price:");
+                        TextView amountTv = new TextView(view.getContext());
+                        amountTv.setText("Amount:");
+
+                        final float scale = view.getResources().getDisplayMetrics().density;
+                        TableRow.LayoutParams tr_params = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+                        tr_params.setMargins(SharedResources.dpTopx(v, 5),SharedResources.dpTopx(v, 5),SharedResources.dpTopx(v, 5),SharedResources.dpTopx(v, 5));
+                        TableRow.LayoutParams textView_params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT,(int) (1 * scale + 0.1f));
+                        TableRow.LayoutParams editText_params = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT,(int) (1 * scale + 0.9f));
+
+                        extraTv.setLayoutParams(textView_params);
+                        priceTv.setLayoutParams(textView_params);
+                        amountTv.setLayoutParams(textView_params);
+                        extra.setLayoutParams(editText_params);
+                        price.setLayoutParams(editText_params);
+                        amount.setLayoutParams(editText_params);
+
+                        TableRow tr1 = new TableRow(view.getContext());
+                        tr1.setLayoutParams(tr_params);
+                        tr1.addView(extraTv);
+                        tr1.addView(extra);
+                        TableRow tr2 = new TableRow(view.getContext());
+                        tr2.setLayoutParams(tr_params);
+                        tr2.addView(priceTv);
+                        tr2.addView(price);
+                        TableRow tr3 = new TableRow(view.getContext());
+                        tr3.setLayoutParams(tr_params);
+                        tr3.addView(amountTv);
+                        tr3.addView(amount);
+
+                        alertLayout.addView(tr1);
+                        alertLayout.addView(tr2);
+                        alertLayout.addView(tr3);
+                        alert.setView(alertLayout);
+
+                        alert.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                String extraStr = extra.getText().toString();
+                                float priceFloat = Float.parseFloat(price.getText().toString());
+                                int amountInt = Integer.parseInt(amount.getText().toString());
+
+                                //Update DB
+                                dbHandler.removeAllOrderRowsLike(orderRow);
+                                orderRow.setCount(amountInt);
+                                orderRow.setExtra(extraStr);
+                                for (int i=0; i<amountInt; i++){
+                                    dbHandler.addOrder(orderRow);
+                                }
+
+                                //Update Screen
+                                populate_ticket();
+                            }
+                        });
+
+                        alert.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                Toast.makeText(OrderActivity.this, "Deleted!", Toast.LENGTH_SHORT).show();
+
+                                //Update DB
+                                dbHandler.removeAllOrderRowsLike(orderRow);
+
+                                //Update Screen
+                                populate_ticket();
+                            }
+                        });
+
+                        alert.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // Canceled.
+                            }
+                        });
+
+                        alert.show();
+
+
+
+
+
+
 
                     }
                 }
         );
     }
-
-//    public String ticketString_toKitchen(){
-//        String ticketStr = "TABLE: " + SharedResourses.tableNumber + "\n";
-//        String currMenu = "";
-//        ticket = dbHandler.getTicketByTable(SharedResourses.tableNumber);
-//        for (OrderRow ord : ticket){
-//            total += ord.getPrice()*ord.getCount();
-//            if (!currMenu.equals(ord.getMenuName())){
-//                currMenu = ord.getMenuName();
-//                ticketStr += "\n --- " + currMenu + " --- \n";
-//            }
-//            ticketStr += " x" + ord.getCount() + " - " + ord.getItemName() + " (" + ord.getExtra() +")\n" ;
-//        }
-//        ticketStr += "\n____________________________\n " + DateFormat.getDateTimeInstance().format(new Date()) + "\n";
-//
-//        return ticketStr;
-//    }
 
     private void doWebViewPrint() {
         // Create a WebView object specifically for printing

@@ -2,6 +2,8 @@ package com.example.claudiochicodev.easyrestaurant;
 
 import android.content.Context;
 import android.util.Base64;
+import android.util.DisplayMetrics;
+import android.view.View;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -46,6 +48,16 @@ public class SharedResources {
             return base64;
         }
         return str;
+    }
+
+    public static int pxToDp(View v, int px){
+        float dp = v.getResources().getDisplayMetrics().density*px;
+        return Math.round(dp);
+    }
+
+    public static int dpTopx(View v, int dp) {
+        DisplayMetrics displayMetrics = v.getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
 

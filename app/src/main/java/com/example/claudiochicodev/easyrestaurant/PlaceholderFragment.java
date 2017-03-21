@@ -106,7 +106,7 @@ public class PlaceholderFragment extends Fragment {
 
             for (int col = 0; col < NUM_COLS; col++) {
                 TableRow.LayoutParams trp = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
-                trp.setMargins(pxToDp(5), pxToDp(5), pxToDp(5), pxToDp(5));
+                trp.setMargins(dpTopx(5), dpTopx(5), dpTopx(5), dpTopx(5));
                 trp.gravity = Gravity.CENTER_VERTICAL;
 
                 if (col == 0) {   //Counter - COL 0
@@ -227,9 +227,6 @@ public class PlaceholderFragment extends Fragment {
         amount.setHint("Amount");
         amount.setInputType(InputType.TYPE_CLASS_NUMBER);
         amount.setText("1");
-
-
-
 
         alertLayout.addView(input);
         alertLayout.addView(amount);

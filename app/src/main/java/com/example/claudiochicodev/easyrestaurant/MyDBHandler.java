@@ -186,6 +186,8 @@ class MyDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+
+
     public void deleteAllTablesRows(){
         SQLiteDatabase db = getWritableDatabase();
         db.delete(TABLE_TABLES, TABLES_COLUMN_ID, null);
@@ -210,6 +212,15 @@ class MyDBHandler extends SQLiteOpenHelper {
         String whereClause = ORDERS_COLUMN_ID + " IN ( SELECT " + ORDERS_COLUMN_ID + " FROM " + TABLE_ORDERS + " WHERE " + ORDERS_COLUMN_TABLEID + " = ? AND " +  ORDERS_COLUMN_ITEMNAME + " = ? AND " +
                 ORDERS_COLUMN_EXTRA + " = ? AND " + ORDERS_COLUMN_ITEMPRICE + " = ? LIMIT 1)";
 
+        String[] whereArgs = new String[] { "" + ord.getTableId(), "" + ord.getItemName(), "" + ord.getExtra(), "" + ord.getPrice() };
+        db.delete(TABLE_ORDERS, whereClause, whereArgs);
+        db.close();
+    }
+
+    public void removeAllOrderRowsLike(OrderRow ord){
+        SQLiteDatabase db = getWritableDatabase();
+        String whereClause = ORDERS_COLUMN_ID + " IN ( SELECT " + ORDERS_COLUMN_ID + " FROM " + TABLE_ORDERS + " WHERE " + ORDERS_COLUMN_TABLEID + " = ? AND " +  ORDERS_COLUMN_ITEMNAME + " = ? AND " +
+                ORDERS_COLUMN_EXTRA + " = ? AND " + ORDERS_COLUMN_ITEMPRICE + " = ?)";
         String[] whereArgs = new String[] { "" + ord.getTableId(), "" + ord.getItemName(), "" + ord.getExtra(), "" + ord.getPrice() };
         db.delete(TABLE_ORDERS, whereClause, whereArgs);
         db.close();
