@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.example.claudiochicodev.easyrestaurant.SettingsActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:title="Settings" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <Button
+            android:id="@+id/set_createNewMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/update_numTables"
+            android:onClick="createNewMenuClicked"
+            android:text="Create new menu" />
+
+        <EditText
+            android:id="@+id/set_numberTables_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/set_createNewMenu"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/appBarLayout"
+            android:layout_toStartOf="@+id/update_numTables"
+            android:ems="10"
+            android:hint="Number of tables"
+            android:inputType="number"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/set_createNewMenu"
+            android:layout_marginTop="16dp"
+            android:text="Select a menu:" />
+
+        <Spinner
+            android:id="@+id/set_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView2"
+            android:layout_toStartOf="@+id/set_deleteMenu" />
+
+        <Button
+            android:id="@+id/set_addToMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:onClick="addToMenuClicked"
+            android:text="Add to menu" />
+
+        <EditText
+            android:id="@+id/set_entryName_EditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/set_addToMenu"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:ems="10"
+            android:hint="Food name"
+            android:inputType="textPersonName" />
+
+        <EditText
+            android:id="@+id/set_price_editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/set_addToMenu"
+            android:ems="10"
+            android:hint="Price"
+            android:inputType="numberDecimal" />
+
+        <ScrollView
+            android:id="@+id/set_scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/set_entryName_EditText"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/set_spinner"
+            android:layout_margin="5dp"
+            android:background="@drawable/background_gradient">
+
+            <TableLayout
+                android:id="@+id/set_tableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </TableLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/set_deleteMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/set_scrollView"
+            android:layout_alignParentEnd="true"
+            android:onClick="deleteMenuClicked"
+            android:text="Delete Menu" />
+
+        <Button
+            android:id="@+id/update_numTables"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/appBarLayout"
+            android:onClick="setTablesClicked"
+            android:text="Set tables" />
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <TableRow
+            android:id="@+id/OR_normal_tableRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent">
+
+            <TextView
+                android:id="@+id/OR_ItemName_textView"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_margin="5dp"
+                android:layout_weight="0.6"
+                android:text="name" />
+
+            <TextView
+                android:id="@+id/OR_amount_textView"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/OR_ItemName_textView"
+                android:layout_alignBottom="@+id/OR_ItemName_textView"
+                android:layout_margin="5dp"
+                android:layout_toStartOf="@+id/OR_subTotal_textView"
+                android:layout_weight="0.2"
+                android:text="amount" />
+
+            <TextView
+                android:id="@+id/OR_subTotal_textView"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/OR_amount_textView"
+                android:layout_alignBottom="@+id/OR_amount_textView"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="5dp"
+                android:layout_weight="0.2"
+                android:background="#dcdee2"
+                android:text="subTotal" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/OR_extra_TableRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#5691ef">
+
+            <TextView
+                android:id="@+id/OR_extra_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_marginLeft="30dp"
+                android:paddingLeft="30dp" />
+        </TableRow>
+
+    </TableLayout>
+</RelativeLayout>
